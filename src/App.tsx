@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Network, Database, Zap, Shield, ArrowRight, Menu, X, ChevronRight, Globe, Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Network, Database, Zap, Shield, ArrowRight, Menu, X, ChevronRight, Globe, Mail, Phone, MapPin, Send, MessageCircle } from 'lucide-react';
 
 type Language = 'en' | 'es';
 
@@ -313,6 +313,27 @@ const Footer = () => {
   );
 };
 
+const WhatsAppButton = () => {
+  return (
+    <motion.a
+      href="https://wa.me/573000000000" // Placeholder number
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      className="fixed bottom-8 right-8 z-[100] bg-[#25D366] text-white p-4 rounded-full shadow-[0_10px_30px_rgba(37,211,102,0.4)] flex items-center justify-center group"
+    >
+      <div className="absolute inset-0 bg-[#25D366] rounded-full animate-ping opacity-25"></div>
+      <MessageCircle size={28} className="relative z-10" />
+      <span className="absolute right-full mr-4 bg-white text-[#112240] px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity shadow-xl whitespace-nowrap pointer-events-none">
+        Chatea con nosotros
+      </span>
+    </motion.a>
+  );
+};
+
 function App() {
   const [lang, setLang] = useState<Language>('es');
 
@@ -326,9 +347,11 @@ function App() {
           <Contact />
         </main>
         <Footer />
+        <WhatsAppButton />
       </div>
     </LanguageContext.Provider>
   );
 }
+
 
 export default App;
