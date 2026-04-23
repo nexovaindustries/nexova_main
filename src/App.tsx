@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Network, Database, Zap, Shield, ArrowRight, Menu, X, ChevronRight, Globe, Mail, Phone, MapPin, Send, MessageCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Network, Database, Shield, ArrowRight, Menu, X, ChevronRight, Globe, Mail, Send, MessageCircle } from 'lucide-react';
 
 type Language = 'en' | 'es';
 
