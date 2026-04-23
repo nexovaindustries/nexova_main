@@ -84,13 +84,16 @@ if (canvas) {
   window.addEventListener('resize', () => { resize(); createNodes(); });
 }
 
-// ===== CONTACT FORM =====
+// ===== CONTACT FORM (Web3Forms) =====
 const form = document.getElementById('contactForm');
 const formFields = document.getElementById('formFields');
 const formSuccess = document.getElementById('formSuccess');
 const submitBtn = document.getElementById('submitBtn');
 const btnText = document.getElementById('btnText');
 const btnLoading = document.getElementById('btnLoading');
+
+// ⚠️ Reemplaza esto con tu Access Key de web3forms.com
+const WEB3FORMS_KEY = '05689d10-95be-42e3-a8e6-40c86c57d45e';
 
 if (form) {
   form.addEventListener('submit', async (e) => {
@@ -99,30 +102,35 @@ if (form) {
     btnLoading.style.display = 'inline';
     submitBtn.disabled = true;
 
-    const data = {
+    const formData = {
+      access_key: WEB3FORMS_KEY,
+      subject: `Nueva consulta de ${form.nombre.value} - Nexova`,
+      from_name: 'Nexova Web',
       nombre: form.nombre.value,
       empresa: form.empresa?.value || '',
       email: form.email.value,
       telefono: form.telefono?.value || '',
-      mensaje: form.mensaje.value
+      message: form.mensaje.value,
+      botcheck: ''
     };
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(formData)
       });
 
-      if (res.ok) {
+      const result = await res.json();
+
+      if (result.success) {
         formFields.style.display = 'none';
         formSuccess.style.display = 'block';
       } else {
-        throw new Error('Error al enviar');
+        throw new Error(result.message || 'Error al enviar');
       }
     } catch (err) {
-      // Fallback: open mailto
-      window.location.href = `mailto:nexova.industries@gmail.com?subject=Consulta de ${data.nombre}&body=${encodeURIComponent(data.mensaje)}`;
+      alert('Hubo un problema al enviar el mensaje. Por favor escríbenos directamente a nexova.industries@gmail.com');
       btnText.style.display = 'inline';
       btnLoading.style.display = 'none';
       submitBtn.disabled = false;
